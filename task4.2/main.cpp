@@ -1,49 +1,44 @@
-#include <iostream>
-
-/*Трикутником Паскаля називають числову конструкцію, у якiй перший
+/*
+1
+1  1
+1  2  1
+1  3  3  1
+1  4  6  4  1
+1  5  10 10 5  1
+1  6  15 20 15 6  1
+* Трикутником Паскаля називають числову конструкцію, у якiй перший
 стовпчик мiстить тiльки одиницi, а всi iншi елементи дорівнюють сумі тих
 двох, що стоять у попередньому рядку над елементом i зліва вiд нього.
-Побудувати перші n рядків трикутника Паскаля.*/
-
+Побудувати перші n рядків трикутника Паскаля.
+*/
 #include <iostream>
-#include <vector>
-
-
-void printPascalsTriangle(int n) {
-    std::vector<std::vector<int>> triangle(n); // Зберігаємо трикутник у векторі векторів
-
-    for (int i = 0; i < n; ++i) {
-        triangle[i].resize(i + 1); // Кожен рядок має i + 1 елементів
-        triangle[i][0] = 1;        // Перший елемент завжди дорівнює 1
-        triangle[i][i] = 1;        // Останній елемент завжди дорівнює 1
-
-        // Обчислюємо проміжні елементи
-        for (int j = 1; j < i; ++j) {
-            triangle[i][j] = triangle[i - 1][j - 1] + triangle[i - 1][j];
-        }
-    }
-
-    // Виведення трикутника Паскаля
-    for (int i = 0; i < n; ++i) {
-        // Додаємо пробіли для вирівнювання
-        for (int k = 0; k < n - i - 1; ++k) {
-            std::cout << " ";
-        }
-        // Виводимо елементи рядка
-        for (int j = 0; j <= i; ++j) {
-            std::cout << triangle[i][j] << " ";
-        }
-        std::cout << "\n";
-    }
-}
 
 int main() {
     int n;
-    std::cout << "n=";
     std::cin >> n;
 
-    printPascalsTriangle(n);
+    int** col = new int*[n];
+    for (int i = 0; i < n; i++) {
+        col[i] = new int[i + 1];
+        col[i][0] = col[i][i] = 1; 
 
- 
+        for (int j = 1; j < i; j++) {
+            col[i][j] = col[i - 1][j - 1] + col[i - 1][j];
+        }
+    }
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j <= i; j++) {
+            std::cout << col[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+
+    for (int i = 0; i < n; i++) {
+        delete[] col[i];
+    }
+    delete[] col;
+
+    return 0;
 }
 
